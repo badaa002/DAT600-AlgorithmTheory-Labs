@@ -5,5 +5,5 @@ Welcome to the DAT600 Algorithm Theory Group Labs repository! This collaborative
 
 ## LAB1
 *requires jupiter notebook
-Installation: https://jupyter.org/install
+  Installation: https://jupyter.org/install
 
