@@ -1,5 +1,5 @@
 def divide_into_groups(graph):
-    # Function to perform depth-first search (DFS) to identify strongly connected components (SCCs)
+    # DFS to find SCCs
     def dfs(node, visited, closure, stack):
         visited.add(node)
         for neighbor in closure[node]:
@@ -7,7 +7,7 @@ def divide_into_groups(graph):
                 dfs(neighbor, visited, closure, stack)
         stack.append(node)
 
-    # Function to transpose the graph (reverse the direction of edges)
+    # Reverse the direction of edges
     def transpose(graph):
         transposed_graph = {node: [] for node in graph}
         for node in graph:
@@ -15,7 +15,7 @@ def divide_into_groups(graph):
                 transposed_graph[neighbor].append(node)
         return transposed_graph
 
-    # Function to identify SCCs using Kosaraju's algorithm
+    # Find SCCs using Kosaraju's algorithm
     def kosaraju_scc(graph):
         visited = set()
         stack = []
@@ -44,42 +44,15 @@ def divide_into_groups(graph):
             if current_node not in visited:
                 visited.add(current_node)
                 for neighbor in graph[current_node]:
+                    # Current node in its own transitive closure
+                    transitive_closure[node].add(current_node)
                     transitive_closure[node].add(neighbor)
                     stack.append(neighbor)
 
-    # Print transitive closure for debugging
-    print("Transitive Closure:")
-    for node, neighbors in transitive_closure.items():
-        print(f"{node}: {neighbors}")
 
-    # Identify SCCs in the transitive closure
+
+    # Identify SCCs in the transitive closure and merging into groups
     scc_groups = kosaraju_scc(transitive_closure)
-
-    # Print SCCs for debugging
-    print("\nStrongly Connected Components (SCCs):")
-    for i, group in enumerate(scc_groups, 1):
-        print(f"Group {i}: {sorted(group)}")
-
-    # Function to merge SCCs into groups based on mutual connections
-    def merge_groups(graph, scc_groups):
-        merged_groups = []
-        visited = set()
-        for group in scc_groups:
-            merged_group = []
-            for node in group:
-                if node not in visited:
-                    merged_group.append(node)
-                    visited.add(node)
-            merged_groups.append(merged_group)
-        return merged_groups
-
-    # Merge SCCs into groups based on mutual connections
-    groups = merge_groups(graph, scc_groups)
+    groups = [sorted(set(group)) for group in scc_groups]
 
     return groups
-
-
-
-
-
-
