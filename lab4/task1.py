@@ -20,3 +20,6 @@ model += 0.33*x+0.5*y <= 35
 
 # Solve the problem
 model.solve()
+
+print("Total profit in pounds per week: = ", value(model.objective))
+print("Will need to produce this many per week: x = ", value(x), ", y = ", value(y))
